@@ -34,7 +34,7 @@ export const pasteText = async (state: EditorState) => {
   if (!editor) return;
   const text = await window.navigator.clipboard.readText();
   if (!text) return;
-  editor.replaceSelection(text, "mini-toolbar-v2-paste");
+  editor.replaceSelection(text, "selection-toolbar-paste");
 };
 
 export const boldText = (app: App) => {
@@ -113,13 +113,13 @@ const toggleSelectionWrapper = (
       "",
       editor.offsetToPos(to),
       editor.offsetToPos(to + suffix.length),
-      "mini-toolbar-v2",
+      "selection-toolbar",
     );
     editor.replaceRange(
       "",
       editor.offsetToPos(from - prefix.length),
       editor.offsetToPos(from),
-      "mini-toolbar-v2",
+      "selection-toolbar",
     );
     setSelectionByOffset(state, from - prefix.length, to - prefix.length);
     return;
@@ -129,7 +129,7 @@ const toggleSelectionWrapper = (
     `${prefix}${text}${suffix}`,
     fromPos,
     toPos,
-    "mini-toolbar-v2",
+    "selection-toolbar",
   );
   setSelectionByOffset(state, from + prefix.length, to + prefix.length);
 };
@@ -142,13 +142,13 @@ export const insertLink = (state: EditorState) => {
   const existingLink = text.match(/^\[([^\]]*)\]\(([^)]*)\)$/);
   if (existingLink) {
     const replacement = existingLink[1] || existingLink[2];
-    editor.replaceRange(replacement, fromPos, toPos, "mini-toolbar-v2");
+    editor.replaceRange(replacement, fromPos, toPos, "selection-toolbar");
     setSelectionByOffset(state, from, from + replacement.length);
     return;
   }
 
   const replacement = `[${text}]()`;
-  editor.replaceRange(replacement, fromPos, toPos, "mini-toolbar-v2");
+  editor.replaceRange(replacement, fromPos, toPos, "selection-toolbar");
   const urlOffset = from + text.length + 3;
   setSelectionByOffset(state, urlOffset);
 };
@@ -207,7 +207,7 @@ export const applyTextLineStyle = (
       next,
       { line: lineNo, ch: 0 },
       { line: lineNo, ch: line.length },
-      "mini-toolbar-v2",
+      "selection-toolbar",
     );
   }
 };
@@ -251,7 +251,7 @@ export const toggleBulletedList = (state: EditorState) => {
       next,
       { line: lineNo, ch: 0 },
       { line: lineNo, ch: line.length },
-      "mini-toolbar-v2-list",
+      "selection-toolbar-list",
     );
   }
 };

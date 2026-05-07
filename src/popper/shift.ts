@@ -1,13 +1,9 @@
-import type { Options as DetectOverflowOptions } from "@floating-ui/core/src/detectOverflow";
 import type {
-  Coords,
-  Middleware,
-  MiddlewareArguments,
   Padding,
   Placement,
   Rect,
   Side,
-} from "@floating-ui/core/src/types";
+} from "@floating-ui/core";
 import { detectOverflow } from "@floating-ui/dom";
 import { Menu } from "obsidian";
 
@@ -15,6 +11,11 @@ import { getBasePlacement } from "./utils/getBasePlacement";
 import { getCrossAxis } from "./utils/getCrossAxis";
 import { getMainAxisFromPlacement } from "./utils/getMainAxisFromPlacement";
 import { within } from "./utils/within";
+
+type Coords = { x: number; y: number };
+type DetectOverflowOptions = Record<string, any>;
+type Middleware = any;
+type MiddlewareArguments = any;
 
 export type Options = {
   mainAxis: boolean;
@@ -74,7 +75,7 @@ export const shift = (
         const overflowMenu = await detectOverflow(middlewareArguments, {
           ...detectOverflowOptions,
           boundary: editorMenu.dom,
-          padding: revertPadding(detectOverflowOptions.padding),
+          padding: revertPadding(detectOverflowOptions.padding) as any,
         });
 
         const crossAxisProps: Side[] =

@@ -1,7 +1,7 @@
 {
-  "name": "obsidian-toolbar",
-  "version": "1.0",
-  "description": "mini context toolbar in editor",
+  "name": "selection-toolbar",
+  "version": "1.0.0",
+  "description": "A compact selection toolbar for formatting, colors, and comments in Obsidian.",
   "main": "",
   "types": "src/typings/index.d.ts",
   "files": [
@@ -9,7 +9,8 @@
   ],
   "scripts": {
     "dev": "cross-env BUILD=dev node esbuild.js",
-    "build": "npm run bumpversion && cross-env BUILD=production node esbuild.js && node deploy-to-vault.js",
+    "build": "cross-env BUILD=production node esbuild.js",
+    "deploy": "node deploy-to-vault.js",
     "bumpversion": "node version-bump.mjs && git add manifest.json versions.json",
     "prettier": " prettier --write 'src/**/*.+(ts|tsx|json|html|css)' ",
     "eslint": "eslint . --ext .ts,.tsx --fix",
@@ -18,6 +19,14 @@
   "keywords": [],
   "author": "QuinYim",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/QuinYim/selection-toolbar.git"
+  },
+  "bugs": {
+    "url": "https://github.com/QuinYim/selection-toolbar/issues"
+  },
+  "homepage": "https://github.com/QuinYim/selection-toolbar#readme",
   "devDependencies": {
     "@aidenlx/obsidian-icon-shortcodes": "^0.5.1",
     "@codemirror/language": "github:lishid/cm-language",

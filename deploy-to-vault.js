@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 
 const projectRoot = __dirname;
-const vaultPluginsPath = 'C:\\Users\\daniel\\Developer\\Obsidian Plugins\\Plugin-Testing-Vault\\.obsidian\\plugins';
+const vaultPluginsPath = process.env.OBSIDIAN_VAULT_PLUGINS_DIR;
 
 function ensureDir(dir) {
   if (!fs.existsSync(dir)) {
@@ -13,6 +13,11 @@ function ensureDir(dir) {
 }
 
 function main() {
+  if (!vaultPluginsPath) {
+    console.error('Set OBSIDIAN_VAULT_PLUGINS_DIR to your vault .obsidian/plugins directory before deploying.');
+    process.exit(1);
+  }
+
   const manifestPath = path.join(projectRoot, 'manifest.json');
   if (!fs.existsSync(manifestPath)) {
     console.error('manifest.json not found at', manifestPath);

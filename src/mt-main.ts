@@ -155,7 +155,7 @@ export default class MiniToolbar extends Plugin {
           fragments.push(doc.createTextNode(slice));
         } else {
           const span = doc.createElement("span");
-          if (commented) span.classList.add("mini-toolbar-v2-comment-mark");
+          if (commented) span.classList.add("selection-toolbar-comment-mark");
           if (textColor) span.style.color = textColor;
           if (bgColor) span.style.backgroundColor = bgColor;
           if (underline) span.style.textDecoration = "underline";

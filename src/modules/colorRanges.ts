@@ -382,7 +382,7 @@ const findCommentAnchor = (
   commentId: string,
 ): HTMLElement | null => {
   for (const anchorEl of Array.from(
-    view.dom.querySelectorAll<HTMLElement>(".mini-toolbar-v2-comment-anchor"),
+    view.dom.querySelectorAll<HTMLElement>(".selection-toolbar-comment-anchor"),
   )) {
     if (anchorEl.dataset.commentId === commentId) return anchorEl;
   }
@@ -424,7 +424,7 @@ export const revealCommentById = (
 ): boolean => {
   const anchorEl = findCommentAnchor(view, commentId);
   const cardEl = anchorEl?.querySelector<HTMLElement>(
-    ".mini-toolbar-v2-comment-card",
+    ".selection-toolbar-comment-card",
   );
   if (!anchorEl || !cardEl) return false;
 
@@ -450,31 +450,31 @@ class CommentWidget extends WidgetType {
   toDOM(view: EditorView): HTMLElement {
     const doc = view.dom.ownerDocument || document;
     const anchorEl = doc.createElement("span");
-    anchorEl.className = "mini-toolbar-v2-comment-anchor";
+    anchorEl.className = "selection-toolbar-comment-anchor";
     anchorEl.setAttribute("aria-label", "Comment");
     anchorEl.dataset.commentId = this.comment.id;
 
     const cardEl = doc.createElement("span");
-    cardEl.className = "mini-toolbar-v2-comment-card";
+    cardEl.className = "selection-toolbar-comment-card";
     cardEl.dataset.commentId = this.comment.id;
 
     const headerEl = doc.createElement("span");
-    headerEl.className = "mini-toolbar-v2-comment-card-header";
+    headerEl.className = "selection-toolbar-comment-card-header";
 
     const avatarEl = doc.createElement("span");
-    avatarEl.className = "mini-toolbar-v2-comment-avatar";
+    avatarEl.className = "selection-toolbar-comment-avatar";
     avatarEl.textContent = "Q";
 
     const authorEl = doc.createElement("span");
-    authorEl.className = "mini-toolbar-v2-comment-author";
+    authorEl.className = "selection-toolbar-comment-author";
     authorEl.textContent = this.comment.author;
 
     const timeEl = doc.createElement("span");
-    timeEl.className = "mini-toolbar-v2-comment-time";
+    timeEl.className = "selection-toolbar-comment-time";
     timeEl.textContent = formatRelativeTime(this.comment.createdAt);
 
     const closeButtonEl = doc.createElement("button");
-    closeButtonEl.className = "mini-toolbar-v2-comment-delete";
+    closeButtonEl.className = "selection-toolbar-comment-delete";
     closeButtonEl.type = "button";
     closeButtonEl.setAttribute("aria-label", "Delete comment");
     closeButtonEl.textContent = "×";
@@ -494,7 +494,7 @@ class CommentWidget extends WidgetType {
     headerEl.appendChild(closeButtonEl);
 
     const bodyEl = doc.createElement("span");
-    bodyEl.className = "mini-toolbar-v2-comment-body";
+    bodyEl.className = "selection-toolbar-comment-body";
     bodyEl.textContent = this.comment.text;
 
     cardEl.appendChild(headerEl);
@@ -582,7 +582,7 @@ const buildDecorations = (
   for (const r of comments) {
     ranges.push(
       Decoration.mark({
-        class: "mini-toolbar-v2-comment-mark",
+        class: "selection-toolbar-comment-mark",
         attributes: {
           "data-mini-toolbar-comment-id": r.id,
           title: "Comment",
@@ -852,7 +852,7 @@ export const createColorExtension = (storage: ColorStorage): Extension => {
       const targetEl =
         targetNode instanceof Element ? targetNode : targetNode?.parentElement;
       const markEl = targetEl?.closest?.(
-        ".mini-toolbar-v2-comment-mark",
+        ".selection-toolbar-comment-mark",
       ) as HTMLElement | null;
       const commentId = markEl?.dataset.miniToolbarCommentId;
       if (!commentId) return false;

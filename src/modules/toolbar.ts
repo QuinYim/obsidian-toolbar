@@ -8,7 +8,7 @@ import {
 } from "@codemirror/language";
 import { EditorState, StateField } from "@codemirror/state";
 import { EditorView } from "@codemirror/view";
-import { SyntaxNode } from "@lezer/common/dist/tree";
+import { SyntaxNode } from "@lezer/common";
 import {
   App,
   BaseComponent,
@@ -154,7 +154,7 @@ const getCommentIdFromNode = (node: Node | null): string | null => {
       ? node.parentElement
       : null;
   const markEl = el?.closest?.(
-    ".mini-toolbar-v2-comment-mark",
+    ".selection-toolbar-comment-mark",
   ) as HTMLElement | null;
   return markEl?.dataset.miniToolbarCommentId ?? null;
 };
@@ -212,7 +212,7 @@ const openCommentPopover = (state: EditorState, event: MouseEvent) => {
 
   const doc = buttonEl.ownerDocument;
   const popoverEl = doc.body.createDiv({
-    cls: "mini-toolbar-v2-comment-popover",
+    cls: "selection-toolbar-comment-popover",
     attr: {
       role: "dialog",
       "aria-label": existingComment ? "Edit comment" : "Add comment",
@@ -221,7 +221,7 @@ const openCommentPopover = (state: EditorState, event: MouseEvent) => {
   popoverEl.style.visibility = "hidden";
 
   const textareaEl = popoverEl.createEl("textarea", {
-    cls: "mini-toolbar-v2-comment-input",
+    cls: "selection-toolbar-comment-input",
     attr: {
       placeholder: "Add a comment...",
       rows: "3",
@@ -229,15 +229,15 @@ const openCommentPopover = (state: EditorState, event: MouseEvent) => {
   });
   if (existingComment) textareaEl.value = existingComment.text;
   const actionRowEl = popoverEl.createDiv({
-    cls: "mini-toolbar-v2-comment-actions",
+    cls: "selection-toolbar-comment-actions",
   });
   const cancelButtonEl = actionRowEl.createEl("button", {
-    cls: "mini-toolbar-v2-comment-action",
+    cls: "selection-toolbar-comment-action",
     text: "Cancel",
     attr: { type: "button" },
   });
   const addButtonEl = actionRowEl.createEl("button", {
-    cls: "mini-toolbar-v2-comment-action is-primary",
+    cls: "selection-toolbar-comment-action is-primary",
     text: existingComment ? "Update" : "Comment",
     attr: { type: "button" },
   });
@@ -291,8 +291,8 @@ const getCursorTooltips = (state: EditorState, app: App): Tooltip | null => {
 
   const createToolbar = (container: any) => {
     const toolbar = new ToolBar(container);
-    const firstRow = toolbar.addRow("mini-toolbar-v2-row-primary");
-    const secondRow = toolbar.addRow("mini-toolbar-v2-row-secondary");
+    const firstRow = toolbar.addRow("selection-toolbar-row-primary");
+    const secondRow = toolbar.addRow("selection-toolbar-row-secondary");
 
     toolbar
       .addSmallButton(
@@ -307,7 +307,7 @@ const getCursorTooltips = (state: EditorState, app: App): Tooltip | null => {
         (btn) =>
           btn
             .setTextIcon("A")
-            .setClass("mini-toolbar-v2-color-trigger")
+            .setClass("selection-toolbar-color-trigger")
             .setTooltip("Text color")
             .setOptionsList(NOTION_TEXT_COLOR_NAMES)
             .setOnSelectOption((name) => setTextColorByName(state, name))
@@ -372,7 +372,7 @@ const getCursorTooltips = (state: EditorState, app: App): Tooltip | null => {
         (btn) =>
           btn
             .setIcon("message-square")
-            .setClass("mini-toolbar-v2-comment-button")
+            .setClass("selection-toolbar-comment-button")
             .setTooltip("Comment")
             .onClick((evt) => openCommentPopover(state, evt)),
         secondRow,
@@ -467,7 +467,7 @@ class SmallButton extends BaseComponent implements SBtnDef {
   setTextIcon(text: string): this {
     this.button.buttonEl.empty();
     this.button.buttonEl.createSpan({
-      cls: "mini-toolbar-v2-text-icon",
+      cls: "selection-toolbar-text-icon",
       text,
     });
     return this;
@@ -477,7 +477,7 @@ class SmallButton extends BaseComponent implements SBtnDef {
     this.button.buttonEl.empty();
     this.setIcon(iconId);
     this.button.buttonEl.createSpan({
-      cls: "mini-toolbar-v2-button-label",
+      cls: "selection-toolbar-button-label",
       text,
     });
     return this;
@@ -489,9 +489,9 @@ class SmallButton extends BaseComponent implements SBtnDef {
   }
 
   setDropdownText(state: EditorState): this {
-    const textDiv = this.button.buttonEl.createDiv("mini-toolbar-v2-text");
+    const textDiv = this.button.buttonEl.createDiv("selection-toolbar-text");
     const iconDiv = this.button.buttonEl.createDiv(
-      "mini-toolbar-v2-icon-with-text",
+      "selection-toolbar-icon-with-text",
     );
     setIcon(iconDiv, "chevron-down");
 
@@ -505,10 +505,10 @@ class SmallButton extends BaseComponent implements SBtnDef {
 
   setDropdownIcon(iconId: string = "highlighter"): this {
     const highlightIconDiv = this.button.buttonEl.createDiv(
-      "mini-toolbar-v2-highlight-icon",
+      "selection-toolbar-highlight-icon",
     );
     const iconDiv = this.button.buttonEl.createDiv(
-      "mini-toolbar-v2-icon-with-icon",
+      "selection-toolbar-icon-with-icon",
     );
     setIcon(highlightIconDiv, iconId);
     setIcon(iconDiv, "chevron-down");
@@ -597,7 +597,7 @@ class SmallButton extends BaseComponent implements SBtnDef {
     activeColorButton = this;
 
     const colorMenuEl = doc.body.createDiv({
-      cls: "mini-toolbar-v2-color-popover",
+      cls: "selection-toolbar-color-popover",
       attr: {
         role: "menu",
         "aria-label": "Color options",
@@ -674,13 +674,13 @@ class SmallButton extends BaseComponent implements SBtnDef {
     recent = false,
   ) {
     menuEl.createDiv({
-      cls: "mini-toolbar-v2-color-section-title",
+      cls: "selection-toolbar-color-section-title",
       text: title,
     });
     const gridEl = menuEl.createDiv({
       cls: recent
-        ? "mini-toolbar-v2-color-grid mini-toolbar-v2-color-grid-recent"
-        : "mini-toolbar-v2-color-grid",
+        ? "selection-toolbar-color-grid selection-toolbar-color-grid-recent"
+        : "selection-toolbar-color-grid",
     });
 
     for (const choice of choices) {
@@ -694,7 +694,7 @@ class SmallButton extends BaseComponent implements SBtnDef {
         ? `${choice.name} text color`
         : `${choice.name} background color`;
     const swatchEl = gridEl.createEl("button", {
-      cls: `mini-toolbar-v2-color-swatch is-${choice.kind}`,
+      cls: `selection-toolbar-color-swatch is-${choice.kind}`,
       attr: {
         type: "button",
         role: "menuitem",
@@ -709,7 +709,7 @@ class SmallButton extends BaseComponent implements SBtnDef {
 
     if (choice.kind === "text") {
       const letterEl = swatchEl.createSpan({
-        cls: "mini-toolbar-v2-color-letter",
+        cls: "selection-toolbar-color-letter",
         text: "A",
       });
       letterEl.style.color =
@@ -783,17 +783,22 @@ export class ToolBar extends Component implements ToolBarDef {
   constructor(container: HTMLElement) {
     super();
     for (const child of Array.from(container.children)) {
-      if (child.classList.contains("cm-mini-toolbar-v2")) child.remove();
+      if (
+        child.classList.contains("cm-selection-toolbar") ||
+        child.classList.contains("cm-mini-toolbar-v2")
+      ) {
+        child.remove();
+      }
     }
     this.dom = container.createDiv(
-      { cls: "cm-obsidian-toolbar" },
+      { cls: "cm-selection-toolbar" },
       (el) => (el.style.position = "absolute"),
     );
     this.smallBtnContainer = this.dom;
   }
 
   addRow(cls: string): HTMLElement {
-    return this.dom.createDiv({ cls: `mini-toolbar-v2-row ${cls}` });
+    return this.dom.createDiv({ cls: `selection-toolbar-row ${cls}` });
   }
 
   addSmallButton(

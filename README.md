@@ -1,29 +1,27 @@
-# obsidian-toolbar
+# selection-toolbar
 
 <p align="center">
-  <img src="https://img.shields.io/badge/version-1.0-6E56CF?style=for-the-badge" alt="Version 1.0">
+  <img src="https://img.shields.io/badge/version-1.0.0-6E56CF?style=for-the-badge" alt="Version 1.0.0">
   <img src="https://img.shields.io/badge/license-MIT-green?style=for-the-badge" alt="MIT License">
 </p>
 
-`obsidian-toolbar` is a compact selection toolbar for Obsidian. When you select text in the editor, it shows a Notion-style floating toolbar with quick formatting, color, list, and comment actions.
+`selection-toolbar` is a compact selection toolbar for Obsidian. When you select text in the editor, it shows a Notion-style floating toolbar with quick formatting, color, list, and comment actions.
 
-The plugin is designed to keep notes readable and lightweight: standard Markdown actions write Markdown, while visual annotations such as custom colors, underline, and comments are stored in the plugin data instead of polluting the note body with HTML or hidden comment syntax.
+The plugin keeps notes readable and lightweight. Standard Markdown actions write Markdown, while visual annotations such as custom colors, underline, and comments are stored in plugin data instead of being written into the note body as HTML or hidden syntax.
 
 ## Features
 
 - Compact two-row toolbar that appears when text is selected.
 - Bulleted list toggle.
-- Text color and background color picker with a Notion-like palette.
+- Text color and background color picker with a Notion-style palette.
 - Bold, italic, underline, highlight, and strikethrough controls.
-- Link insertion/removal helper.
+- Link insertion and removal helper.
 - Inline code and inline math helpers.
 - Comment annotations for selected text.
 - More menu with Copy, Paste, and Cut.
 - Dynamic positioning so the toolbar stays inside the visible editor area.
 
 ## Toolbar Layout
-
-The default toolbar layout is:
 
 ```text
 List  Text color  Bold  Italic  Underline  Highlight
@@ -40,27 +38,27 @@ Cut
 
 ## Comments
 
-Comments are stored as plugin-local annotations and are attached to a selected text range.
+Comments are stored as plugin-local annotations and attached to selected text ranges.
 
 Current comment behavior:
 
 - Commented text is highlighted and underlined.
 - After creating or revealing a comment, the comment card appears near the commented text.
 - The comment card automatically hides after a short delay.
-- Clicking the highlighted commented text shows the comment card again.
+- Clicking highlighted commented text shows the comment card again.
 - Selecting text that already has a comment and pressing the comment button opens the existing comment for editing instead of creating a duplicate.
 - Pressing the `X` button on a comment card deletes that comment.
 
 ## Stored Data
 
-The following annotations are stored in the plugin's data file:
+The following annotations are stored in the plugin data file:
 
 - Text colors
 - Background colors
 - Underline ranges
 - Comment ranges and comment text
 
-These annotations are not written into the Markdown source. If the plugin is disabled or the note is opened outside Obsidian, plugin-local annotations will not be visible.
+These annotations are not written into Markdown. If the plugin is disabled or the note is opened outside Obsidian, plugin-local annotations will not be visible.
 
 Markdown-native actions such as bold, italic, strikethrough, links, inline code, inline math, and lists still modify the Markdown text directly.
 
@@ -91,23 +89,23 @@ Interactive comment cards and comment editing are available in the editor.
 3. Enter this repository URL:
 
 ```text
-https://github.com/QuinYim/obsidian-toolbar
+https://github.com/QuinYim/selection-toolbar
 ```
 
-4. Enable `obsidian-toolbar` in Obsidian's Community Plugins settings.
+4. Enable `selection-toolbar` in Obsidian's Community Plugins settings.
 
 ### Manual Install
 
 1. Download the latest release from:
 
 ```text
-https://github.com/QuinYim/obsidian-toolbar/releases
+https://github.com/QuinYim/selection-toolbar/releases
 ```
 
 2. Extract the release files into:
 
 ```text
-<your-vault>/.obsidian/plugins/obsidian-toolbar/
+<your-vault>/.obsidian/plugins/selection-toolbar/
 ```
 
 3. Make sure the folder contains:
@@ -118,7 +116,7 @@ manifest.json
 styles.css
 ```
 
-4. Reload Obsidian and enable `obsidian-toolbar` in Community Plugins.
+4. Reload Obsidian and enable `selection-toolbar` in Community Plugins.
 
 ## Development
 
@@ -131,13 +129,41 @@ npm install
 Build the plugin:
 
 ```bash
-BUILD=production node esbuild.js
+npm run build
 ```
 
 The build output is written to:
 
 ```text
 build/
+```
+
+Deploy to a local test vault:
+
+```bash
+OBSIDIAN_VAULT_PLUGINS_DIR="<your-vault>/.obsidian/plugins" npm run deploy
+```
+
+## Official Release Checklist
+
+Before submitting to the official Obsidian community plugin directory:
+
+- Keep `manifest.json` `id` as `selection-toolbar`.
+- Keep `manifest.json` `version` in `x.y.z` format, such as `1.0.0`.
+- Create a GitHub release whose tag matches `manifest.json` `version`.
+- Attach `main.js`, `manifest.json`, and `styles.css` from the production build to the release.
+- Submit a pull request to `obsidianmd/obsidian-releases` that adds this plugin to `community-plugins.json`.
+
+Suggested `community-plugins.json` entry:
+
+```json
+{
+  "id": "selection-toolbar",
+  "name": "selection-toolbar",
+  "author": "QuinYim",
+  "description": "A compact selection toolbar for formatting, colors, and comments in Obsidian.",
+  "repo": "QuinYim/selection-toolbar"
+}
 ```
 
 ## Author

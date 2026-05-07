@@ -18,7 +18,7 @@ import {
 declare module "obsidian" {
   interface Workspace {
     on(
-      name: "editor-obsidian-toolbar",
+      name: "editor-selection-toolbar",
       cb: (
         toolbar: ToolBar,
         range: EditorRange,

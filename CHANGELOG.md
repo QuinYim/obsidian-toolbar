@@ -1,3 +1,11 @@
+## 1.0.0 (2026-05-07)
+
+### Features
+
+* rename the plugin package and official plugin id to selection-toolbar
+* add selection toolbar formatting, color, list, highlight, and comment actions
+* add plugin-local color, underline, and comment annotations
+
 ## 0.0.1 (2021-12-12)
 
 ### Bug Fixes

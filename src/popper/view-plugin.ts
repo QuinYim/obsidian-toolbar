@@ -11,7 +11,7 @@ import { editorInfoField, EventRef, Menu, Platform } from "obsidian";
 
 import { ToolBar } from "../modules/toolbar";
 import { tooltipConfig } from "./config";
-import { MiniToolbarEvtName, Tooltip } from "./define";
+import { SelectionToolbarEvtName, Tooltip } from "./define";
 import { showTooltip } from "./index";
 import { shift } from "./shift";
 
@@ -41,7 +41,7 @@ const isEmbeddedEditorView = (view: EditorView): boolean => {
 const isSelectionInsideEmbeddedChild = (view: EditorView): boolean => {
   try {
     const sel =
-      (view.root as Document | ShadowRoot).getSelection?.() ||
+      (view.root as any).getSelection?.() ||
       document.getSelection();
     const node = sel?.anchorNode as Node | null;
     if (!node) return false;
@@ -160,11 +160,11 @@ class ViewPluginClass implements PluginValue {
     const from = view.editor.offsetToPos(info.start);
     const to = info.end ? view.editor.offsetToPos(info.end) : from;
     this.workspace.trigger(
-      MiniToolbarEvtName,
+      SelectionToolbarEvtName,
       toolbar,
       { from, to },
       view.editor,
-      view,
+      view as any,
     );
     this.toolbar = toolbar;
   }
@@ -241,14 +241,15 @@ class ViewPluginClass implements PluginValue {
     if (this.embedded || !this.toolbar) return;
     this.virtualEl.rect = refRect;
     const { padding } = this.view.state.facet(tooltipConfig);
+    const floatingPadding = padding as any;
     const viewportGap = typeof padding === "number" ? Math.max(8, padding) : 8;
     const { x, y } = await computePosition(this.virtualEl, this.toolbar.dom, {
       placement: this.defaultPlacement,
       middleware: [
         offset({ mainAxis: 5 }),
-        flip({ padding, boundary: this.view.scrollDOM }),
+        flip({ padding: floatingPadding, boundary: this.view.scrollDOM }),
         shift({
-          padding,
+          padding: floatingPadding,
           crossAxis: true,
           boundary: this.view.scrollDOM,
           editorMenu: this.editorMenu.currMenu,

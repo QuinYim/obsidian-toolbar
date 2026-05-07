@@ -1,9 +1,9 @@
 {
-  "id": "obsidian-toolbar",
-  "name": "obsidian-toolbar",
-  "version": "1.0",
+  "id": "selection-toolbar",
+  "name": "selection-toolbar",
+  "version": "1.0.0",
   "minAppVersion": "0.15.0",
-  "description": "mini context toolbar in editor",
+  "description": "A compact selection toolbar for formatting, colors, and comments in Obsidian.",
   "author": "QuinYim",
   "authorUrl": "https://github.com/QuinYim",
   "isDesktopOnly": true

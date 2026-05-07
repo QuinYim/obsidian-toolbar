@@ -11,4 +11,4 @@ export interface Tooltip {
   create: (containerEl: HTMLElement) => ToolBar;
 }
 
-export const MiniToolbarEvtName = "editor-obsidian-toolbar";
+export const SelectionToolbarEvtName = "editor-selection-toolbar";
