@@ -144,27 +144,6 @@ Deploy to a local test vault:
 OBSIDIAN_VAULT_PLUGINS_DIR="<your-vault>/.obsidian/plugins" npm run deploy
 ```
 
-## Official Release Checklist
-
-Before submitting to the official Obsidian community plugin directory:
-
-- Keep `manifest.json` `id` as `selection-toolbar`.
-- Keep `manifest.json` `version` in `x.y.z` format, such as `1.0.0`.
-- Create a GitHub release whose tag matches `manifest.json` `version`.
-- Attach `main.js`, `manifest.json`, and `styles.css` from the production build to the release.
-- Submit a pull request to `obsidianmd/obsidian-releases` that adds this plugin to `community-plugins.json`.
-
-Suggested `community-plugins.json` entry:
-
-```json
-{
-  "id": "selection-toolbar",
-  "name": "selection-toolbar",
-  "author": "QuinYim",
-  "description": "A compact selection toolbar for formatting, colors, and comments in Obsidian.",
-  "repo": "QuinYim/selection-toolbar"
-}
-```
 
 ## Author
 
