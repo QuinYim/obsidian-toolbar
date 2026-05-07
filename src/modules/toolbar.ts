@@ -55,6 +55,12 @@ type ColorChoice = {
   name: string;
 };
 
+const TOOLBAR_DEFAULT_WIDTH = 286;
+const TOOLBAR_BUTTON_SIZE = 30;
+const TOOLBAR_HORIZONTAL_PADDING = 28;
+const TOOLBAR_MIN_COLUMN_GAP = 8;
+const TOOLBAR_COLUMN_OPTIONS = [6, 4, 3, 2];
+
 let activeColorButton: SmallButton | null = null;
 let recentlyUsedColor: ColorChoice | null = null;
 let activeCommentPopover: { el: HTMLElement; close: () => void } | null = null;
@@ -801,6 +807,21 @@ export class ToolBar extends Component implements ToolBarDef {
     return this.dom.createDiv({ cls: `selection-toolbar-row ${cls}` });
   }
 
+  setAvailableWidth(availableWidth: number): this {
+    const safeWidth = Math.max(0, Math.floor(availableWidth));
+    const columns =
+      TOOLBAR_COLUMN_OPTIONS.find(
+        (candidate) => getToolbarMinWidth(candidate) <= safeWidth,
+      ) ?? 2;
+    const minWidth = getToolbarMinWidth(columns);
+    const width = Math.max(minWidth, Math.min(TOOLBAR_DEFAULT_WIDTH, safeWidth));
+
+    this.dom.style.setProperty("--selection-toolbar-columns", `${columns}`);
+    this.dom.style.setProperty("--selection-toolbar-width", `${width}px`);
+    this.dom.dataset.columns = `${columns}`;
+    return this;
+  }
+
   addSmallButton(
     cb: (button: SmallButton) => any,
     containerEl: HTMLElement = this.smallBtnContainer,
@@ -822,3 +843,11 @@ export class ToolBar extends Component implements ToolBarDef {
     return this;
   }
 }
+
+const getToolbarMinWidth = (columns: number): number => {
+  return (
+    columns * TOOLBAR_BUTTON_SIZE +
+    (columns - 1) * TOOLBAR_MIN_COLUMN_GAP +
+    TOOLBAR_HORIZONTAL_PADDING
+  );
+};

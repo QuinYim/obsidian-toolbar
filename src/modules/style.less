@@ -1,8 +1,17 @@
 .cm-selection-toolbar {
-  width: min(286px, calc(100vw - 16px));
+  --selection-toolbar-columns: 6;
+  --selection-toolbar-width: min(286px, calc(100vw - 16px));
+
+  width: var(--selection-toolbar-width);
   height: auto;
-  padding: 0;
+  box-sizing: border-box;
+  padding: 8px 14px;
   display: grid;
+  grid-template-columns: repeat(var(--selection-toolbar-columns), 30px);
+  align-items: center;
+  justify-content: space-between;
+  column-gap: 8px;
+  row-gap: 4px;
   user-select: none;
   overflow: visible;
   border-radius: 14px;
@@ -47,21 +56,12 @@
   }
 
   .selection-toolbar-row {
-    display: grid;
-    align-items: center;
+    display: contents;
   }
 
   .selection-toolbar-row-primary,
   .selection-toolbar-row-secondary {
-    grid-template-columns: repeat(6, 1fr);
-    justify-items: center;
-    column-gap: 8px;
-    padding: 8px 14px 2px;
-  }
-
-  .selection-toolbar-row-secondary {
-    padding-top: 2px;
-    padding-bottom: 8px;
+    display: contents;
   }
 
   .selection-toolbar-comment-button {

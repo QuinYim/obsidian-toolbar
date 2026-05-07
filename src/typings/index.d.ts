@@ -37,6 +37,8 @@ export declare class ToolBar extends Component {
 
   addSmallButton(cb: (button: SmallButton) => any): this;
 
+  setAvailableWidth(availableWidth: number): this;
+
   unloading: boolean;
 
   hide(): this;

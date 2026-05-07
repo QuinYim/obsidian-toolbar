@@ -243,6 +243,27 @@ class ViewPluginClass implements PluginValue {
     const { padding } = this.view.state.facet(tooltipConfig);
     const floatingPadding = padding as any;
     const viewportGap = typeof padding === "number" ? Math.max(8, padding) : 8;
+    const docEl = this.view.dom.ownerDocument.documentElement;
+    const editorRect = this.view.scrollDOM.getBoundingClientRect();
+    const boundaryLeft = clampNumber(0, editorRect.left, docEl.clientWidth);
+    const boundaryRight = clampNumber(
+      boundaryLeft,
+      editorRect.right,
+      docEl.clientWidth,
+    );
+    const boundaryTop = clampNumber(0, editorRect.top, docEl.clientHeight);
+    const boundaryBottom = clampNumber(
+      boundaryTop,
+      editorRect.bottom,
+      docEl.clientHeight,
+    );
+    const availableWidth = Math.max(
+      0,
+      boundaryRight - boundaryLeft - viewportGap * 2,
+    );
+
+    this.toolbar.setAvailableWidth(availableWidth);
+
     const { x, y } = await computePosition(this.virtualEl, this.toolbar.dom, {
       placement: this.defaultPlacement,
       middleware: [
@@ -262,15 +283,12 @@ class ViewPluginClass implements PluginValue {
       left: 0,
       top: 0,
     };
-    const docEl = this.view.dom.ownerDocument.documentElement;
     const toolbarWidth = this.toolbar.dom.offsetWidth;
     const toolbarHeight = this.toolbar.dom.offsetHeight;
-    const minX = viewportGap - parentRect.left;
-    const maxX =
-      docEl.clientWidth - parentRect.left - toolbarWidth - viewportGap;
-    const minY = viewportGap - parentRect.top;
-    const maxY =
-      docEl.clientHeight - parentRect.top - toolbarHeight - viewportGap;
+    const minX = boundaryLeft - parentRect.left + viewportGap;
+    const maxX = boundaryRight - parentRect.left - toolbarWidth - viewportGap;
+    const minY = boundaryTop - parentRect.top + viewportGap;
+    const maxY = boundaryBottom - parentRect.top - toolbarHeight - viewportGap;
     const adjustedX = clampNumber(minX, x, maxX);
     const adjustedY = clampNumber(minY, y, maxY);
 
